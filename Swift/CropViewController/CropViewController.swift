@@ -62,7 +62,9 @@ public typealias CropViewCroppingStyle = TOCropViewCroppingStyle
      @param angle The angle of the image when it was cropped
      */
     @objc optional func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int)
-    
+
+    @objc optional func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRatio: TOCropViewControllerAspectRatioPreset)
+
     /**
      If the cropping style is set to circular, implementing this delegate will return a circle-cropped version of the selected
      image, as well as it's cropping co-ordinates
@@ -690,6 +692,9 @@ extension CropViewController {
             self.onDidCropToRect = {[weak self] image, rect, angle in
                 guard let strongSelf = self else { return }
                 delegate.cropViewController!(strongSelf, didCropToImage: image, withRect: rect, angle: angle)
+                delegate.cropViewController!(strongSelf,
+                                             didCropToImage: image,
+                                             withRatio: strongSelf.aspectRatioPreset)
             }
         }
         
